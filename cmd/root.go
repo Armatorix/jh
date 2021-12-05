@@ -9,9 +9,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var (
-	url      string
-	selector string
-	rootCmd  = &cobra.Command{
+	firstOnly bool
+	url       string
+	selector  string
+	rootCmd   = &cobra.Command{
 		Use:   "jh",
 		Short: "HTML content parser with selector handling",
 	}
@@ -37,8 +38,11 @@ var (
 				cmd.PrintErrf("parse error: %v\n", err)
 				return
 			}
-
-			cmd.Println(doc.Find(selector).Text())
+			if firstOnly {
+				cmd.Println(doc.Find(selector).First().Text())
+			} else {
+				cmd.Println(doc.Find(selector).Text())
+			}
 		},
 	}
 )
@@ -52,5 +56,6 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringVar(&url, "url", "", "url for html source")
 	rootCmd.PersistentFlags().StringVar(&selector, "selector", "", "selector for parse")
+	rootCmd.PersistentFlags().BoolVar(&firstOnly, "fo", false, "returns first occurance only")
 	rootCmd.AddCommand(parseSelectorCmd)
 }
