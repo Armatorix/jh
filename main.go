@@ -15,7 +15,9 @@ limitations under the License.
 */
 package main
 
-import "github.com/Armatorix/jh/cmd"
+import (
+	"github.com/Armatorix/jh/cmd"
+)
 
 func main() {
 	cmd.Execute()
