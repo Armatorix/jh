@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/PuerkitoBio/goquery"
@@ -39,9 +40,9 @@ var (
 				return
 			}
 			if firstOnly {
-				cmd.Println(doc.Find(selector).First().Text())
+				fmt.Print(doc.Find(selector).First().Text())
 			} else {
-				cmd.Println(doc.Find(selector).Text())
+				fmt.Print(doc.Find(selector).Text())
 			}
 		},
 	}
