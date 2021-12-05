@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/spf13/cobra"
@@ -40,7 +41,12 @@ var (
 				return
 			}
 			if firstOnly {
-				fmt.Print(doc.Find(selector).First().Text())
+				s, err := doc.Find(selector).First().Html()
+				if err != nil {
+					cmd.PrintErrf("get html error: %v\n", err)
+					return
+				}
+				fmt.Print(strings.NewReplacer("<br>", "\n", "<br/>", "\n").Replace(s))
 			} else {
 				fmt.Print(doc.Find(selector).Text())
 			}
